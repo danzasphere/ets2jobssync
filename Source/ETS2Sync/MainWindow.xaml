@@ -1,0 +1,173 @@
+﻿<Controls:MetroWindow x:Class="ETS2Sync.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ETS2Sync"
+        mc:Ignorable="d"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        
+                            BorderThickness="0" 
+                      GlowBrush="Black"
+                      
+        Title="ETS2 Job Sync" Height="464.706" Width="608.333" Closing="MetroWindow_Closing">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="Button_Click_1">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_paypal}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="buy me a beer"
+                              />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabControl"  Margin="0,0,0,20" Grid.Row="0">
+            <TabItem Header="Quick Start">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Step 1: Choose Save Game Path (normally autodetect)" Grid.Row="0"  >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="AUTO" />
+
+                            </Grid.RowDefinitions>
+
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Sync Save Folder Path" />
+                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxSyncSaveGamePath" TextChanged="textBoxSyncSaveGamePath_TextChanged"  />
+
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Step 2: Select owned DLC's (normally autodetect)"  Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Select owned DLC`s" />
+                            <!--<Button Grid.Column="1" Grid.Row="5" x:Name="button" Content="Manuel Sync Jobs" Margin="10,10" Width="120" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="button_Click"/>-->
+                            <CheckBox x:Name="checkBoxScandinavia" Content="Scandinavia" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Click="checkBoxScandinavia_Click"/>
+                            <CheckBox x:Name="checkBoxGoingEast"  Content="Going East!" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Click="checkBoxGoingEast_Click"/>
+                            <CheckBox x:Name="checkBoxHighPowerCargoes" Content="High Power Cargoes" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Click="checkBoxHighPowerCargoes_Click"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Step 3: Start the game"  Grid.Row="2">
+                        <TextBlock>Start Euro Truck Simulator 2 Multiplayer and select your profile<LineBreak/>
+                            Save your game on any save game<LineBreak/>
+                            Soon you will hear a sound, wich says you, the programm will sync the jobs<LineBreak/>
+                            After 5-10 seconds you will hear a second sound, depending on your connection speed, <LineBreak/>
+                            wich tells you, you can load the save game again and all your jobs are synced with ets2sync.com
+                        </TextBlock>
+                    </GroupBox>
+
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Advanced Settings">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Settings" Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+
+                            <CheckBox x:Name="checkBoxSound" Content="play sounds" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Click="checkBoxSound_Click"/>
+                            <CheckBox x:Name="checkBoxBackup"  Content="auto backup save game" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Click="checkBoxBackup_Click"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="About"  Grid.Row="1">
+                        <Grid>
+                            <TextBlock>Special thanks goes to s3ba11 for his great webpage ets2sync.com
+                            <LineBreak /> <LineBreak /> 
+                            Author: Jannik Strelow aka danza<LineBreak />
+                            Webseite: d4nza.de<LineBreak /><LineBreak />
+                            See you on the road!
+                            </TextBlock>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+
+            </TabItem>
+
+        </TabControl>
+        <Grid Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="75"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="2" FontSize="9.333" Margin="0,5,0,-5">           
+                <Hyperlink NavigateUri="http://d4nza.de/" RequestNavigate="Hyperlink_RequestNavigate" >
+                    www.d4nza.de
+                </Hyperlink>
+                </TextBlock>
+                <TextBlock Grid.Column="1" FontSize="9.333" Margin="0,5,0,-5">           
+                <Hyperlink NavigateUri="http://www.ets2sync.com/" RequestNavigate="Hyperlink_RequestNavigate">
+                    www.ets2sync.com
+                </Hyperlink>
+                </TextBlock>
+                <Label Content="Version: xxxx" x:Name="labelVersion" HorizontalAlignment="Right" FontSize="9.333" Grid.Column="3"></Label>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>
