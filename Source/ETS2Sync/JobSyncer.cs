@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using log4net;
+using Microsoft.Win32;
 using Palow.Library;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace ETS2Sync
                 }
                 catch (Exception e)
                 {
+                    //C:\Users\janni\Documents\Euro Truck Simulator 2\profiles\5B626C61636B44445D2064616E7A61\save\8
                     return "";
                 }
 
@@ -44,8 +46,12 @@ namespace ETS2Sync
 
         public String LastMd5 { get; set; }
 
+        private Boolean syncInProgress = false;
+
         public JobSyncer()
         {
+            //C: \Users\janni\Documents\Euro Truck Simulator 2\profiles\5B626C61636B44445D2064616E7A61\save\8
+            //this.SaveFolderPath = @"C:\Users\janni\Documents\Euro Truck Simulator 2\profiles\5B626C61636B44445D2064616E7A61\save\8";
 
             try
             {
@@ -96,6 +102,7 @@ namespace ETS2Sync
             try
             {
                 String content = Functions.ReadFile(etsSettingsFile);
+                //uset g_save_format "0"
                 content = content.Replace("uset g_save_format \"0\"", "uset g_save_format \"3\"");
 
                 Functions.WriteFile(etsSettingsFile, content);
@@ -126,8 +133,18 @@ namespace ETS2Sync
         }
 
 
+
         public void SyncJobs(String fileName)
         {
+            if (syncInProgress)
+            {
+                return;
+            }
+            syncInProgress = true;
+
+
+            ILog lg = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            lg.Debug("Start syncing");
             try
             {
                 String folderPathGameSiiZero = fileName;
@@ -219,7 +236,8 @@ namespace ETS2Sync
             }
 
 
-
+            lg.Debug("End syncing");
+            syncInProgress = false;
 
 
         }
@@ -251,6 +269,7 @@ namespace ETS2Sync
 
         private void FileWatcherOnChangedCreate(object sender, FileSystemEventArgs e)
         {
+            ILog lg = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
@@ -268,6 +287,7 @@ namespace ETS2Sync
                         unlockTries++;
                         if (unlockTries > 7)
                         {
+                            //lg.Error(String.Format("No Unlock after {1} tries with 100ms Error for:{0}, Cancel Event", e.Name, unlockTries));
                             return;
                         }
                     }
@@ -277,6 +297,7 @@ namespace ETS2Sync
                     string md5 = this.FileWatcherMd5Hash(e.FullPath);
                     if (this.LastMd5 == md5)
                     {
+                        //lg.Warn("Detected Double Run, cancel:" + e.Name);
                         return;
                     }
                     this.LastMd5 = md5;
@@ -291,8 +312,10 @@ namespace ETS2Sync
                 #endregion
 
 
-                if (Path.GetFileName(e.FullPath) == "game.sii.0~" && !e.FullPath.Contains("autosave")) // (File.Exists(e.FullPath) && Path.GetFileName(e.FullPath) == "game.sii.0") ||
+                if (Path.GetFileName(e.FullPath) == "game.sii.0~" && !e.FullPath.Contains("autosave") && e.ChangeType == WatcherChangeTypes.Created) // (File.Exists(e.FullPath) && Path.GetFileName(e.FullPath) == "game.sii.0") ||
                 {
+                    lg.Debug("Filename: " + e.FullPath + " " + e.ChangeType);
+
                     try
                     {
                         this.SyncJobs(e.FullPath.Replace("~", ""));
