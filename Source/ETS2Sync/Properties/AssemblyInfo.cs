@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ETS2Sync")]
+[assembly: AssemblyTitle("ETS2 Sync")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("d4nza.de")]
 [assembly: AssemblyProduct("ETS2Sync")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Jannik Strelow")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
