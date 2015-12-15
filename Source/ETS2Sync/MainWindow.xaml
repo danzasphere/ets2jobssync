@@ -12,6 +12,7 @@
                       
         Title="ETS2 Job Sync" Height="464.706" Width="608.333" Closing="MetroWindow_Closing">
 
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,7 +40,6 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-
 
     <Grid>
         <Grid.RowDefinitions>

@@ -54,8 +54,6 @@ namespace Palow.Library.Config {
             set { objectHolder = value; }
         }
 
-        public MethodResult LoadSuccess { get; set; }
-        public MethodResult WriteSuccess { get; set; }
 
         #endregion
 
@@ -63,7 +61,7 @@ namespace Palow.Library.Config {
         public ConfigXmlFile(String fileSource, Boolean AutoLoad) {
             this.FileSource = fileSource;
             if (AutoLoad) {
-                LoadSuccess = Load();
+                Load();
             }
         }
         public ConfigXmlFile(String fileSource) : this(fileSource, false) { }
@@ -124,9 +122,8 @@ namespace Palow.Library.Config {
         /// Lädt File ohne Konstruktor (wenn FileSource in der Klasse angegeben wurde)
         /// </summary>
         /// <returns></returns>
-        public MethodResult Load() {
+        public void Load() {
             ILog lg = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            MethodResult res = new MethodResult();
             //try {
             this.fileContent = ReadFile(this.fileSource);
             // **** ANALYSE CONTENT
@@ -155,7 +152,6 @@ namespace Palow.Library.Config {
             //    throw new Exception(ex);
             //}
             LoadExecuted = true;
-            return res;
         }
         private string ReadFile(String sFilename) {
             string sContent = "";
